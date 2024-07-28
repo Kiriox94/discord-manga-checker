@@ -31,7 +31,6 @@ const client = new Client({
 
 client.on("ready", () => {
    console.log(`Logged in as ${client.user.tag}!`)
-   // client.user.setActivity("Sevire Zoria, comme je le ferais jusqu'à ma mort");
 
    if (!config.booksChannelId) {
       client.guilds.cache.get(process.env.GUILD_ID).channels.create({name: "Livres", type: ChannelType.GuildForum}).then(channel => {
