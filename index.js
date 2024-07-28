@@ -1,9 +1,11 @@
-const config = require('./config.json');
 const { Client, GatewayIntentBits, Partials, ChannelType, time, TimestampStyles, hyperlink, hideLinkEmbed } = require('discord.js');
 const axios = require("axios")
-const fs =require("fs");
+const fs = require("fs");
 const { channel } = require('diagnostics_channel');
 require('dotenv').config();
+
+if (!fs.existsSync("./config.json")) fs.writeFileSync("./config.json", "{}")
+const config = require('./config.json');
 
 const euroFormatter = new Intl.NumberFormat('fr-FR', {
    style: 'currency',
@@ -32,7 +34,7 @@ client.on("ready", () => {
    // client.user.setActivity("Sevire Zoria, comme je le ferais jusqu'à ma mort");
 
    if (!config.booksChannelId) {
-      client.guilds.cache.get(config.guildId).channels.create({name: "Livres", type: ChannelType.GuildForum}).then(channel => {
+      client.guilds.cache.get(process.env.GUILD_ID).channels.create({name: "Livres", type: ChannelType.GuildForum}).then(channel => {
          channel.setAvailableTags([{name: "Lu", emoji: {name: "✅"}}])
          config.booksChannelId = channel.id;
          fs.writeFileSync("./config.json", JSON.stringify(config))
@@ -79,4 +81,4 @@ client.on('interactionCreate', async interaction => {
    }
 });
 
-client.login(config.token)
+client.login(process.env.TOKEN)
